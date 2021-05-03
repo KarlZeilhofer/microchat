@@ -1,3 +1,4 @@
+
 Microchat
 =========
 
@@ -5,6 +6,6 @@ Microchat
 
 # Mitwirkende
 * Karl Zeilhofer
-* und andere
+* Christian Chimani
 
 
