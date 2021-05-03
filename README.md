@@ -1,3 +1,4 @@
+
 Microchat
 =========
 
@@ -6,6 +7,7 @@ Microchat
 # Mitwirkende
 * Karl Zeilhofer
 * David Ecker
-* und andere
-
-
+* Manuel Eder
+* Christian Chimani
+* Semin Begic
+* Leonardo Alekov
