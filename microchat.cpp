@@ -44,6 +44,8 @@ void MicroChat::on_pushButton_send_clicked()
     ui->plainTextEdit_input->setFocus();
 }
 
+
+
 void MicroChat::on_actionSend_triggered()
 {
     on_pushButton_send_clicked();
@@ -69,4 +71,8 @@ void MicroChat::processPendingDatagrams()
                                                 + ": "
                                                 + receivedText);
     }
+}
+
+void MicroChat::on_pushButton_delete_clicked(){
+    ui->plainTextEdit_chat->clear();
 }
