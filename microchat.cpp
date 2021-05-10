@@ -35,13 +35,16 @@ void MicroChat::transmit(QString user, QString message)
 
 void MicroChat::on_pushButton_send_clicked()
 {
+
     QString input = ui->plainTextEdit_input->toPlainText();
+    if(input!=0){
     if(input.contains('\n')){
         input = QString("\n")+input;
     }
     transmit(userName, input);
     ui->plainTextEdit_input->clear();
     ui->plainTextEdit_input->setFocus();
+}
 }
 
 void MicroChat::on_actionSend_triggered()
