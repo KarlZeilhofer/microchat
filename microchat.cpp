@@ -1,6 +1,8 @@
 #include "microchat.h"
 #include "ui_microchat.h"
 #include <QtNetwork>
+#include "time.h"
+#include "fstream"
 
 MicroChat::MicroChat(QWidget *parent) :
     QWidget(parent),
@@ -28,7 +30,8 @@ MicroChat::~MicroChat()
 
 void MicroChat::transmit(QString user, QString message)
 {
-    QByteArray datagram = user.toUtf8() + "|" + message.toUtf8() + "\n";
+
+    QByteArray datagram = user.toUtf8() + "|" + message.toUtf8() +"\n";
     udpSenderSocket->writeDatagram(datagram.data(), datagram.size(),
                              QHostAddress::Broadcast, Port);
 }
@@ -36,13 +39,33 @@ void MicroChat::transmit(QString user, QString message)
 void MicroChat::on_pushButton_send_clicked()
 {
     QString input = ui->plainTextEdit_input->toPlainText();
+
+    if(input.contains("Idiot") || input.contains("Blödmann") || input.contains("Depp")){
+        input = QString("**");
+    }
+
     if(input.contains('\n')){
         input = QString("\n")+input;
     }
+
+    if(input.contains('\t')){
+        input = QString("Hier wurde nichts eingegeben");
+    }
+
+    if(input.contains(' ')){
+        input = QString("Hier wurde nichts eingegeben");
+    }
+
+    if(input.length() == 0){
+        input = QString("Hier wurde nichts eingegeben");
+    }
+
     transmit(userName, input);
     ui->plainTextEdit_input->clear();
     ui->plainTextEdit_input->setFocus();
 }
+
+
 
 void MicroChat::on_actionSend_triggered()
 {
@@ -62,11 +85,13 @@ void MicroChat::processPendingDatagrams()
         list.removeFirst();
         receivedText = list.join('|');
         receivedText = receivedText.remove(receivedText.length()-1,1); // strip \r\n
-
-        ui->plainTextEdit_chat->appendPlainText(QTime::currentTime().toString("HH:mm:ss")
+        QString Timestamp = __TIMESTAMP__;
+        ui->plainTextEdit_chat->appendPlainText(Timestamp
                                                 + " "
                                                 + senderName
                                                 + ": "
                                                 + receivedText);
     }
 }
+
+
