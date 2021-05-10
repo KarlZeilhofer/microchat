@@ -39,6 +39,7 @@ private slots:
     void on_pushButton_send_clicked();
     void on_actionSend_triggered();
     void processPendingDatagrams();
+    void on_pushButton_delete_clicked();
 
 private:
     Ui::MicroChat *ui;
