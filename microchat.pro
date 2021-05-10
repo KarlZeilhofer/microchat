@@ -33,5 +33,4 @@ HEADERS += \
 FORMS += \
         microchat.ui
 
-DISTFILES += \
-    schimp
+DISTFILES +=
