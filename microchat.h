@@ -2,6 +2,7 @@
 #define MICROCHAT_H
 
 #include <QWidget>
+#include <stdint.h>
 
 QT_BEGIN_NAMESPACE
 class QDialogButtonBox;
