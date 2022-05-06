@@ -26,10 +26,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        microchat.cpp
+        microchat.cpp \
+        qaesencryption.cpp
 
 HEADERS += \
-        microchat.h
+        microchat.h \
+        qaesencryption.h
 
 FORMS += \
         microchat.ui

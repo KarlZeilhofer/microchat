@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <stdint.h>
+#include <qaesencryption.h>
+#include <QMap>
 
 QT_BEGIN_NAMESPACE
 class QDialogButtonBox;
@@ -42,8 +44,16 @@ private slots:
     void processPendingDatagrams();
     void on_pushButton_delete_clicked();
 
+    void on_pushButton_showKey_clicked(bool checked);
+    void on_pushButton_removeGroup_clicked();
+    void on_comboBox_group_activated(const QString &group);
+
+    void on_lineEdit_key_editingFinished();
+
 private:
     Ui::MicroChat *ui;
+    QAESEncryption *crypto;
+    QMap<QString,QString> groups; // Pair of Groups and Keys
 };
 
 #endif // MICROCHAT_H
