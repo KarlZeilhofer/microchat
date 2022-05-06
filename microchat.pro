@@ -35,3 +35,6 @@ HEADERS += \
 
 FORMS += \
         microchat.ui
+
+DISTFILES += \
+    README.md
