@@ -6,14 +6,27 @@ Als Sender Name wird der lokale Username des Betriebssystems verwendet.
 
 ## Bauen
 
-Benötigt werden Qt 6 mit den Modulen Widgets und Network, ein C++17-Compiler
-und qmake:
+Benötigt werden CMake 3.16 oder neuer, Qt 6.2 oder neuer mit den Modulen
+Widgets und Network sowie ein C++17-Compiler.
+
+Konfigurieren und bauen:
 
 ```sh
-mkdir build
-cd build
-qmake6 ../microchat.pro
-make -j$(nproc)
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel
+```
+
+Anschließend kann Microchat direkt gestartet werden:
+
+```sh
+./build/microchat
+```
+
+Optional kann das Programm unter einem frei wählbaren Präfix installiert
+werden:
+
+```sh
+cmake --install build --prefix /gewünschter/installationspfad
 ```
 
 ## Gruppen
