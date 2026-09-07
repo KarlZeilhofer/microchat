@@ -2,9 +2,11 @@
 #define MICROCHAT_H
 
 #include <QWidget>
-#include <stdint.h>
-#include <qaesencryption.h>
 #include <QMap>
+#include <QString>
+#include <cstdint>
+
+#include "qaesencryption.h"
 
 QT_BEGIN_NAMESPACE
 class QDialogButtonBox;
@@ -25,14 +27,14 @@ public:
     explicit MicroChat(QWidget *parent = nullptr);
     ~MicroChat();
 
-    void transmit(QString user, QString message);
+    void transmit(const QString &user, const QString &message);
 
 
-    QUdpSocket* udpSenderSocket = 0;
-    QUdpSocket* udpReceiverSocket = 0;
+    QUdpSocket *udpSenderSocket = nullptr;
+    QUdpSocket *udpReceiverSocket = nullptr;
 
     QString userName = "mmuster";
-    const uint16_t Port = 1111;
+    static constexpr std::uint16_t Port = 1111;
 
 
 signals:
@@ -46,7 +48,7 @@ private slots:
 
     void on_pushButton_showKey_clicked(bool checked);
     void on_pushButton_removeGroup_clicked();
-    void on_comboBox_group_activated(const QString &group);
+    void on_comboBox_group_textActivated(const QString &group);
 
     void on_lineEdit_key_editingFinished();
 

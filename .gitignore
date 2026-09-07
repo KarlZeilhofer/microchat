@@ -1,3 +1,12 @@
 *pro.user*
 *autosave
 
+# qmake build output
+/build*/
+.qmake.stash
+Makefile
+*.o
+/microchat
+moc_*.cpp
+moc_predefs.h
+ui_*.h

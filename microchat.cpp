@@ -1,8 +1,12 @@
 #include "microchat.h"
 #include "ui_microchat.h"
-#include <QtNetwork>
-#include <bits/functional_hash.h>
+
+#include <QCryptographicHash>
+#include <QHostAddress>
+#include <QLineEdit>
 #include <QSettings>
+#include <QTime>
+#include <QUdpSocket>
 
 
 MicroChat::MicroChat(QWidget *parent) :
@@ -15,8 +19,8 @@ MicroChat::MicroChat(QWidget *parent) :
     udpReceiverSocket = new QUdpSocket(this);
     udpReceiverSocket->bind(Port, QUdpSocket::ShareAddress);
 
-    connect(udpReceiverSocket, SIGNAL(readyRead()),
-            this, SLOT(processPendingDatagrams()));
+    connect(udpReceiverSocket, &QUdpSocket::readyRead,
+            this, &MicroChat::processPendingDatagrams);
 
     userName = qgetenv("USER");
     if (userName.isEmpty())
@@ -47,7 +51,7 @@ MicroChat::~MicroChat()
 }
 
 // Format: <Groupname>|<User Name>|<Encrypted Text>
-void MicroChat::transmit(QString user, QString message)
+void MicroChat::transmit(const QString &user, const QString &message)
 {
     QByteArray msg = message.toUtf8();
     if(ui->lineEdit_key->text().isEmpty() == false){
@@ -70,7 +74,7 @@ void MicroChat::on_pushButton_send_clicked()
 {
 
     QString input = ui->plainTextEdit_input->toPlainText();
-    if(input!=0){
+    if (!input.isEmpty()) {
         if(input.contains('\n')){
             input = QString("\n")+input;
         }
@@ -94,7 +98,7 @@ void MicroChat::processPendingDatagrams()
         datagram.resize(udpReceiverSocket->pendingDatagramSize());
         udpReceiverSocket->readDatagram(datagram.data(), datagram.size());
 
-        QString receivedText = QString(datagram);
+        QString receivedText = QString::fromUtf8(datagram);
         QStringList list = receivedText.split('|');
         QString senderGroup = list[0];
         QString senderName = list[1];
@@ -119,7 +123,7 @@ void MicroChat::processPendingDatagrams()
             QByteArray msg = list.join('|');
 
             msg = crypto->decode(msg, hashedKey, hashedIV);
-            receivedText = QString(crypto->removePadding(msg));
+            receivedText = QString::fromUtf8(crypto->removePadding(msg));
 
             if(receivedText.startsWith("DECRYPTED")){
                 receivedText = receivedText.right(receivedText.length()-9);
@@ -163,7 +167,7 @@ void MicroChat::on_pushButton_removeGroup_clicked()
     }
 }
 
-void MicroChat::on_comboBox_group_activated(const QString &group)
+void MicroChat::on_comboBox_group_textActivated(const QString &group)
 {
     qDebug() << "activated:" << group;
     if(groups.contains(group) == false){
